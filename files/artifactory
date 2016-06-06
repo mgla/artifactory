@@ -1,0 +1,6 @@
+# Artifactory configuration
+ARTIFACTORY_HOME=/var/opt/jfrog/artifactory
+JAVA_OPTIONS="-server -Xms512m -Xmx2g -Xss256k -XX:+UseG1GC"
+JAVA_OPTIONS="$JAVA_OPTIONS -Djruby.compile.invokedynamic=false -Dfile.encoding=UTF8 -Dartdist=zip -Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true"
+JAVA_HOME=
+TOMCAT_HOME=/opt/jfrog/artifactory/tomcat

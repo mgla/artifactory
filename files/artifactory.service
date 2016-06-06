@@ -1,0 +1,14 @@
+[Unit]
+Description=Artifactory server
+After=network.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/default/artifactory
+User=artifactory
+
+ExecStart=/opt/jfrog/artifactory/tomcat/bin/startup.sh
+ExecStop=/bin/kill -15 $MAINPID
+
+[Install]
+WantedBy=multi-user.target
