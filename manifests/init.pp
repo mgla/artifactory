@@ -1,6 +1,7 @@
 # == Class: artifactory
 #
 # TBD
+# Requires oracle-java
 #
 # === Parameters
 #
@@ -22,14 +23,37 @@
 #
 # Copyright 2016 Maik Glatki
 #
+
 class artifactory {
-  # Download deb:   http://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb
-  # Require oracle-java
+    $download = 'http://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb'
+  # Install official .deb file, if not installed.
+  exec { 'artifactory-install':
+    command => "wget {$download} -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
+    onlyif  => "/usr/bin/dpgk -s jfrog-artifactory-oss | /bin/egrep -q '^Status: install ok installed$",
+    require => [Package["grep"], Package["dpkg"], Package["wget"]],
+  }
   # Remove broken sysvinit
   file { '/etc/init.d/artifactory':
     ensure => absent,
   }
-  file { '/etc/init.d/artifactory':
-    ensure => absent,
+  file { '/etc/systemd/system/artifactory.service':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => 644,
+    source => 'puppet:///modules/mgla-artifactory/artifactory.service'
+  }
+  file { '/etc/default/artifactory':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => 644,
+    source => 'puppet:///modules/mgla-artifactory/artifactory'
+  }
+  # After artifactory is installed and systemd files are installed, enable systemd service
+  exec { 'artifactory-systemd-enable':
+    require => File['/etc/default/artifactory'],
+    require => File['/etc/systemd/system/artifactory.service'],
+    command => '/bin/systemctl enable artifactory.service',
   }
 }
