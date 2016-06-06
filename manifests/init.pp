@@ -28,7 +28,7 @@ class artifactory {
     $download = 'http://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb'
   # Install official .deb file, if not installed.
   exec { 'artifactory-install':
-    command => "wget {$download} -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
+    command => "/usr/bin/wget {$download} -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
     onlyif  => "/usr/bin/dpgk -s jfrog-artifactory-oss | /bin/egrep -q '^Status: install ok installed$",
     require => [Package["grep"], Package["dpkg"], Package["wget"]],
   }
@@ -52,8 +52,7 @@ class artifactory {
   }
   # After artifactory is installed and systemd files are installed, enable systemd service
   exec { 'artifactory-systemd-enable':
-    require => File['/etc/default/artifactory'],
-    require => File['/etc/systemd/system/artifactory.service'],
+    require => [File['/etc/default/artifactory'], File['/etc/systemd/system/artifactory.service']],
     command => '/bin/systemctl enable artifactory.service',
   }
 }
