@@ -28,8 +28,8 @@ class artifactory {
     $download = 'http://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb'
   # Install official .deb file, if not installed.
   exec { 'artifactory-install':
-    command => "/usr/bin/wget {$download} -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
-    onlyif  => "/usr/bin/dpkg -s jfrog-artifactory-oss | /bin/egrep -q '^Status: install ok installed$'",
+    command => "/usr/bin/wget '${download}' -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
+    onlyif  => "/usr/bin/dpkg -s jfrog-artifactory-oss | /bin/egrep -vq '^Status: install ok installed$' || exit 0 && exit 1",
     require => [Package["grep"], Package["dpkg"], Package["wget"]],
   }
   # Remove broken sysvinit
