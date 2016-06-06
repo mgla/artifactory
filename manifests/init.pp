@@ -29,7 +29,7 @@ class artifactory {
   # Install official .deb file, if not installed.
   exec { 'artifactory-install':
     command => "/usr/bin/wget {$download} -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
-    onlyif  => "/usr/bin/dpgk -s jfrog-artifactory-oss | /bin/egrep -q '^Status: install ok installed$",
+    onlyif  => "/usr/bin/dpkg -s jfrog-artifactory-oss | /bin/egrep -q '^Status: install ok installed$",
     require => [Package["grep"], Package["dpkg"], Package["wget"]],
   }
   # Remove broken sysvinit
