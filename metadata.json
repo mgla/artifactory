@@ -1,0 +1,14 @@
+{
+  "name": "jfrog-artifactory",
+  "version": "0.1.0",
+  "author": "Maik Glatki <maik.glatki@gmail.com>",
+  "summary": "Installs jfrog-artifactory on a Debian system",
+  "license": "GPL v2",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
