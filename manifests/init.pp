@@ -41,14 +41,14 @@ class artifactory {
     owner  => root,
     group  => root,
     mode   => 644,
-    source => 'puppet:///modules/mgla-artifactory/artifactory.service'
+    source => 'puppet:///modules/artifactory/artifactory.service'
   }
   file { '/etc/default/artifactory':
     ensure => file,
     owner  => root,
     group  => root,
     mode   => 644,
-    source => 'puppet:///modules/mgla-artifactory/artifactory'
+    source => 'puppet:///modules/artifactory/artifactory'
   }
   # After artifactory is installed and systemd files are installed, enable systemd service
   exec { 'artifactory-systemd-enable':
