@@ -25,7 +25,7 @@
 #
 
 class artifactory {
-    $download = 'http://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb'
+    $download = 'https://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb'
   # Install official .deb file, if not installed.
   exec { 'artifactory-install':
     command => "/usr/bin/wget '${download}' -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
