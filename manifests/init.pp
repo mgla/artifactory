@@ -1,19 +1,8 @@
 # == Class: artifactory
 #
-# TBD
+# Class to install Artifactory on a Debian system
 # Requires oracle-java
-#
-# === Parameters
-#
-# TBD
-#
-# === Variables
-#
-# TBD
-#
-# === Examples
-#
-# TBD
+# Requires a realizable [Package['grep'], Package['dpkg'], Package['wget']]
 #
 # === Authors
 #

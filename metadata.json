@@ -1,12 +1,12 @@
 {
   "name": "mgla-artifactory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Maik Glatki <maik.glatki@gmail.com>",
   "summary": "Installs artifactory on a Debian system",
   "license": "GPL v2",
-  "source": "",
-  "project_page": null,
-  "issues_url": null,
+  "source": "https://github.com/mgla/puppet-artifactory",
+  "project_page": "https://github.com/mgla/puppet-artifactory",
+  "issues_url": "https://github.com/mgla/puppet-artifactory/issues",
   "dependencies": []
 }
 
