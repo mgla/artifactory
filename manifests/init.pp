@@ -26,22 +26,25 @@ class artifactory {
     command => "/usr/bin/wget '${download}' -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
     onlyif  => "/usr/bin/dpkg -s jfrog-artifactory-oss | /bin/egrep -vq '^Status: install ok installed$' || exit 0 && exit 1",
   }
-  # Remove broken sysvinit
+
+  # Remove broken sysvinit installed with artifactory.
   file { '/etc/init.d/artifactory':
     ensure => absent,
   }
+
+  # Install clean systemd service file
   file { '/etc/systemd/system/artifactory.service':
     ensure => file,
     owner  => root,
     group  => root,
-    mode   => 644,
+    mode   => '0644',
     source => 'puppet:///modules/artifactory/artifactory.service'
   }
   file { '/etc/default/artifactory':
     ensure => file,
     owner  => root,
     group  => root,
-    mode   => 644,
+    mode   => '0644',
     source => 'puppet:///modules/artifactory/artifactory'
   }
   exec { 'artifactory-systemd-daemon-reload':
@@ -52,8 +55,8 @@ class artifactory {
   }
   # After artifactory is installed and systemd files are installed, enable systemd service
   exec { 'artifactory-systemd-enable':
-    require   => [File['/etc/default/artifactory'], File['/etc/systemd/system/artifactory.service']],
-    onlyif    => "/bin/systemctl show artifactory | /bin/egrep -q '^UnitFileState=disabled$'",
-    command   => '/bin/systemctl enable artifactory.service',
+    require => [File['/etc/default/artifactory'], File['/etc/systemd/system/artifactory.service']],
+    onlyif  => "/bin/systemctl show artifactory | /bin/egrep -q '^UnitFileState=disabled$'",
+    command => '/bin/systemctl enable artifactory.service',
   }
 }
