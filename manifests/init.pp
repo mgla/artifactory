@@ -51,12 +51,12 @@ class artifactory {
     command     => '/bin/systemctl daemon-reload',
     subscribe   => File['/etc/systemd/system/artifactory.service'],
     refreshonly => true,
-    notify      => Exec['artifactory-systemd-enable'],
   }
   # After artifactory is installed and systemd files are installed, enable systemd service
-  exec { 'artifactory-systemd-enable':
-    require => [File['/etc/default/artifactory'], File['/etc/systemd/system/artifactory.service']],
-    onlyif  => "/bin/systemctl show artifactory | /bin/egrep -q '^UnitFileState=disabled$'",
-    command => '/bin/systemctl enable artifactory.service',
+  service { 'artifactory':
+    ensure => running,
+    enable => true,
+    provider => systemd,
+    require => File['/etc/systemd/system/artifactory.service'],
   }
 }
