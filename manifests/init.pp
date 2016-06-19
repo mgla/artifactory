@@ -54,9 +54,9 @@ class artifactory {
   }
   # After artifactory is installed and systemd files are installed, enable systemd service
   service { 'artifactory':
-    ensure => running,
-    enable => true,
+    ensure   => running,
+    enable   => true,
     provider => systemd,
-    require => File['/etc/systemd/system/artifactory.service'],
+    require  => File['/etc/systemd/system/artifactory.service'],
   }
 }
