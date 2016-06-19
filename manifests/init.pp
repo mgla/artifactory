@@ -14,12 +14,17 @@
 #
 
 class artifactory {
-    $download = 'https://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb'
+  # Default URL for jfrog-artifactory
+  $download = 'https://jfrog.bintray.com/artifactory-debs/pool/main/j/jfrog-artifactory-oss-deb/jfrog-artifactory-oss-4.8.0.deb'
+
+  # This is commented out, since puppet can not satisfy this requirement without your help. Please adapt to your use
+  # realize[Package['grep'], Package['dpkg'], Package['wget']]
+  notice "Please realize [[Package['grep'], Package['dpkg'], Package['wget']]"
+
   # Install official .deb file, if not installed.
   exec { 'artifactory-install':
     command => "/usr/bin/wget '${download}' -O /tmp/arti.deb && /usr/bin/dpkg -i /tmp/arti.deb && rm -f /tmp/arti.deb",
     onlyif  => "/usr/bin/dpkg -s jfrog-artifactory-oss | /bin/egrep -vq '^Status: install ok installed$' || exit 0 && exit 1",
-    require => [Package["grep"], Package["dpkg"], Package["wget"]],
   }
   # Remove broken sysvinit
   file { '/etc/init.d/artifactory':
